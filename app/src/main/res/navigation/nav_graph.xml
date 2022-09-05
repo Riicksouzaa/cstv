@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MatchesFragment">
+    <fragment
+        android:id="@+id/MatchesFragment"
+        android:name="com.codenome.cstv.MatchesFragment"
+        android:label="Partidas"
+        tools:layout="@layout/fragment_matches">
+        <action
+            android:id="@+id/action_MatchesFragment_toMatchesDetailFragment"
+            app:destination="@+id/MatchesDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MatchesDetailFragment"
+        android:name="com.codenome.cstv.MatchesDetailFragment"
+        android:label="Name"
+        tools:layout="@layout/fragment_matches_detail" />
 
 </navigation>
