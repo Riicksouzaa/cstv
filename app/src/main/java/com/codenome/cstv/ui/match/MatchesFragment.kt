@@ -51,9 +51,7 @@ class MatchesFragment : Fragment() {
                     Resource.Status.LOADING -> binding.progressMatches.visibility = View.VISIBLE
                     Resource.Status.SUCCESS -> {
                         binding.progressMatches.visibility = View.GONE
-                        resource.data?.let {
-                            matchAdapter.matches = it
-                        }
+                        resource.data?.let { matchAdapter.matches = it }
                     }
                     Resource.Status.ERROR -> {
                         binding.progressMatches.visibility = View.GONE
