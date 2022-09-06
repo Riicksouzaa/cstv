@@ -6,18 +6,31 @@
     app:startDestination="@id/MatchesFragment">
     <fragment
         android:id="@+id/MatchesFragment"
-        android:name="com.codenome.cstv.MatchesFragment"
+        android:name="com.codenome.cstv.ui.match.MatchesFragment"
         android:label="Partidas"
         tools:layout="@layout/fragment_matches">
         <action
-            android:id="@+id/action_MatchesFragment_toMatchesDetailFragment"
-            app:destination="@+id/MatchesDetailFragment" />
+            android:id="@+id/action_MatchesFragment_to_MatchesDetailFragment"
+            app:destination="@id/MatchesDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right_medium"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left_medium" />
     </fragment>
 
     <fragment
         android:id="@+id/MatchesDetailFragment"
-        android:name="com.codenome.cstv.MatchesDetailFragment"
+        android:name="com.codenome.cstv.ui.match_details.MatchesDetailFragment"
         android:label="Name"
-        tools:layout="@layout/fragment_matches_detail" />
+        tools:layout="@layout/fragment_matches_detail">
+        <argument
+            android:name="match"
+            android:defaultValue="@null"
+            app:argType="com.codenome.cstv.model.Match"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_MatchesDetailFragment_to_MatchesFragment"
+            app:destination="@+id/MatchesFragment" />
+    </fragment>
 
 </navigation>

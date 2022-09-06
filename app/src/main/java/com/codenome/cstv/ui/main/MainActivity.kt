@@ -1,4 +1,4 @@
-package com.codenome.cstv
+package com.codenome.cstv.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,12 +7,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.codenome.cstv.R
 import com.codenome.cstv.databinding.ActivityMainBinding
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    var toolbar: MaterialToolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        toolbar = binding.toolbar
 
         val navController = findNavController(R.id.nav_host_fragment_container)
         appBarConfiguration = AppBarConfiguration(navController.graph)

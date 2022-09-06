@@ -5,6 +5,7 @@
         <item name="android:navigationBarColor">@color/black_background</item>
         <item name="android:statusBarColor">@color/black_background</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="background">@color/black_background</item>
 
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
