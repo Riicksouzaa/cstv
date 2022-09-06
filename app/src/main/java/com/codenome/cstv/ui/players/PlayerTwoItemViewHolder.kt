@@ -1,6 +1,5 @@
 package com.codenome.cstv.ui.players
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.codenome.cstv.R
@@ -13,16 +12,11 @@ class PlayerTwoItemViewHolder constructor(var binding: ItemMatchesPlayersTwoBind
     fun bind(player: Player) {
         binding.impPlayerTwoNickname.text = player.name
         binding.impPlayerTwoName.text = player.fullName
-        player.image_url?.let {
-            Glide.with(binding.root)
-                .load(it)
-                .addListener(glideRequestListener(binding.progressImage))
-                .into(binding.impPlayerTwoImage)
-        } ?: kotlin.run {
-            Glide.with(binding.root)
-                .load(R.drawable.rectangle_shape)
-                .into(binding.impPlayerTwoImage)
-            binding.progressImage.visibility = View.GONE
-        }
+
+        Glide.with(binding.impPlayerTwoImage.context)
+            .load(player.image_url)
+            .placeholder(R.drawable.rectangle_shape)
+            .addListener(glideRequestListener(binding.progressImage))
+            .into(binding.impPlayerTwoImage)
     }
 }
