@@ -30,7 +30,8 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_MatchesDetailFragment_to_MatchesFragment"
-            app:destination="@+id/MatchesFragment" />
+            app:destination="@+id/MatchesFragment"
+            app:popUpToSaveState="true" />
     </fragment>
 
 </navigation>
