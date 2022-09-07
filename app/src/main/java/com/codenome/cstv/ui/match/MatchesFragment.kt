@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codenome.cstv.R
 import com.codenome.cstv.databinding.FragmentMatchesBinding
 import com.codenome.cstv.ui.main.MainActivity
-import com.codenome.cstv.utils.Resource
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MatchesFragment : Fragment() {
@@ -21,10 +20,7 @@ class MatchesFragment : Fragment() {
     private val binding: FragmentMatchesBinding get() = requireNotNull(_binding)
 
     private val matchAdapter: MatchAdapter by lazy {
-        MatchAdapter {
-            val action = MatchesFragmentDirections.actionMatchesFragmentToMatchesDetailFragment(it)
-            findNavController().navigate(action)
-        }
+        MatchAdapter()
     }
 
     override fun onCreateView(
@@ -33,9 +29,6 @@ class MatchesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMatchesBinding.inflate(inflater, container, false)
-        if (matchAdapter.matches.isEmpty()) {
-            matchesViewModel.refresh()
-        }
         return binding.root
     }
 
@@ -45,19 +38,16 @@ class MatchesFragment : Fragment() {
         binding.fmRecyclerMatches.layoutManager = LinearLayoutManager(activity)
         binding.fmRecyclerMatches.adapter = matchAdapter
 
-        lifecycleScope.launch {
-            matchesViewModel.flowState.collect { resource ->
-                when (resource.status) {
-                    Resource.Status.LOADING -> binding.progressMatches.visibility = View.VISIBLE
-                    Resource.Status.SUCCESS -> {
-                        binding.progressMatches.visibility = View.GONE
-                        resource.data?.let { matchAdapter.matches = it }
-                    }
-                    Resource.Status.ERROR -> {
-                        binding.progressMatches.visibility = View.GONE
-                    }
-                }
+        binding.progressMatches.visibility = View.VISIBLE
 
+        matchAdapter.addLoadStateListener {
+            binding.progressMatches.isVisible = it.source.refresh is LoadState.Loading
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            matchesViewModel.matchesFlow.collect { matches ->
+                binding.progressMatches.visibility = View.GONE
+                matchAdapter.submitData(matches)
             }
         }
 
