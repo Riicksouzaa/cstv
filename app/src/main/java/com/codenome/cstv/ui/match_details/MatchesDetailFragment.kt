@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.codenome.cstv.R
 import com.codenome.cstv.databinding.FragmentMatchesDetailBinding
@@ -35,6 +37,8 @@ class MatchesDetailFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             findNavController().navigateUp()
         }
+        sharedElementEnterTransition =
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(
@@ -49,6 +53,25 @@ class MatchesDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val match = args.match
+        ViewCompat.setTransitionName(
+            binding.fmdTeamOneImage,
+            "team_one_image_${match?.firstOpponent?.id}"
+        )
+        ViewCompat.setTransitionName(
+            binding.fmdTeamTwoImage,
+            "team_two_image_${match?.secondOpponent?.id}"
+        )
+        ViewCompat.setTransitionName(
+            binding.fmdTeamOneName,
+            "team_one_name_${match?.firstOpponent?.id}"
+        )
+        ViewCompat.setTransitionName(
+            binding.fmdTeamTwoName,
+            "team_two_name_${match?.secondOpponent?.id}"
+        )
+        ViewCompat.setTransitionName(binding.fmdVersusText, "versus_text")
 
         binding.fmdTimeMatch.text = args.match?.date
 

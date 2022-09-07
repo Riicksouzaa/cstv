@@ -35,6 +35,14 @@ class MatchesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fmRecyclerMatches.apply {
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
+        }
+
         binding.fmRecyclerMatches.layoutManager = LinearLayoutManager(activity)
         binding.fmRecyclerMatches.adapter = matchAdapter
 
