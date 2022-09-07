@@ -1,7 +1,7 @@
 package com.codenome.cstv.model
 
 import android.os.Parcelable
-import com.codenome.cstv.utils.parseDate
+import com.codenome.cstv.utils.*
 import kotlinx.parcelize.Parcelize
 import java.time.format.TextStyle
 import java.util.*
@@ -31,21 +31,22 @@ data class Match(
 
     val date
         get(): String {
-            val str = begin_at?.let { it.parseDate() }
-                ?: scheduled_at?.let { it.parseDate() }
+            val startDate = begin_at?.parseDate() ?: scheduled_at?.parseDate()
 
             val today = System.currentTimeMillis()
-            val c = Calendar.getInstance()
-            c.timeInMillis = today
-            val dayOfMonth = c.get(Calendar.DAY_OF_MONTH)
-            val strDay = str?.dayOfMonth?.equals(dayOfMonth)
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = today
+            val strDay = startDate?.toCalendar()?.getDaysBetween(calendar)
 
-
-            val strWeek = if (strDay == true) "Hoje,"
-            else str?.dayOfWeek?.getDisplayName(TextStyle.SHORT, Locale.getDefault())
-                ?.replaceFirstChar { it.uppercase() }
-                ?.replace(".", ",")
-            return "$strWeek ${str?.toLocalTime()}"
+            val strWeek = when {
+                strDay == 0L && startDate.dayOfMonth == calendar.getActualDay() -> "Hoje,"
+                ((startDate?.dayOfMonth ?: 0) - calendar.getActualDay()) == 1 -> "Amanhã,"
+                (strDay ?: 0L) >= 3L -> startDate?.toCalendar()?.getStringDayAndMonth()
+                else -> startDate?.dayOfWeek?.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                    ?.replaceFirstChar { it.uppercase() }
+                    ?.replace(".", ",")
+            }
+            return "$strWeek ${startDate?.toLocalTime()}"
         }
 
     val leagueSerieName

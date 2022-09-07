@@ -10,7 +10,7 @@ import com.codenome.cstv.model.Match
 
 class MatchItemViewHolder constructor(var binding: ItemMatchesBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(cb: (Match) -> Unit, match: Match) {
+    fun bind(match: Match) {
         if (match.isRunning == true) {
             binding.imMatchTimeText.background = AppCompatResources.getDrawable(
                 binding.imMatchTimeText.context,
@@ -43,9 +43,5 @@ class MatchItemViewHolder constructor(var binding: ItemMatchesBinding) :
             .load(match.secondOpponent?.image_url)
             .placeholder(R.drawable.circle_shape)
             .into(binding.imTeamTwoImage)
-
-        binding.root.setOnClickListener {
-            cb(match)
-        }
     }
 }

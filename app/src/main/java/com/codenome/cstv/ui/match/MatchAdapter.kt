@@ -2,33 +2,35 @@ package com.codenome.cstv.ui.match
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
+import androidx.paging.PagingDataAdapter
 import com.codenome.cstv.databinding.ItemMatchesBinding
 import com.codenome.cstv.model.Match
 
-class MatchAdapter(private val cb: (Match) -> Unit) : RecyclerView.Adapter<MatchItemViewHolder>() {
-    var matches = emptyList<Match>()
-        set(value) {
-            val result = DiffUtil.calculateDiff(
-                MatchListDiffCallback(
-                    field,
-                    value
-                )
-            )
-            result.dispatchUpdatesTo(this)
-            field = value
-        }
+class MatchAdapter() :
+    PagingDataAdapter<Match, MatchItemViewHolder>(MatchListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchItemViewHolder {
-        val binding =
-            ItemMatchesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MatchItemViewHolder(binding)
+        val holder = MatchItemViewHolder(
+            ItemMatchesBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+
+        holder.binding.root.setOnClickListener { view ->
+            getItem(holder.bindingAdapterPosition)?.let { match ->
+                view.findNavController().navigate(
+                    MatchesFragmentDirections.actionMatchesFragmentToMatchesDetailFragment(match)
+                )
+            }
+        }
+
+        return holder
     }
 
     override fun onBindViewHolder(holder: MatchItemViewHolder, position: Int) {
-        holder.bind(cb, matches[position])
+        getItem(position)?.let { holder.bind(it) }
     }
-
-    override fun getItemCount(): Int = matches.size
 }

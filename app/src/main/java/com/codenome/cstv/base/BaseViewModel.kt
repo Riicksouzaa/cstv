@@ -6,7 +6,7 @@ import com.codenome.cstv.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-open class BaseViewModel<T>(private val repository: BaseRepository<T>) : ViewModel() {
+abstract class BaseViewModel<T>(private val repository: BaseRepository<T>) : ViewModel() {
 
     private val _flowState = MutableStateFlow<Resource<T>>(Resource.loading())
     open val flowState
