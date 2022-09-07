@@ -14,7 +14,7 @@ alterar as variáveis de build. O projeto tem 3 Variáveis de build que podem se
 build.gradle a nível de app, sendo elas:
 
 ```kotlin
-    ACCESS_TOKEN // STRING Token de acesso PandaScore
+ACCESS_TOKEN // STRING Token de acesso PandaScore
 BASE_URL // STRING Url Base para api solicitada (CSGO)
 PAGINATION_SIZE // INTEGER Tamanho da paginação da tela inicial da listagem de partidas
 ```
