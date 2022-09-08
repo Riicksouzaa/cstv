@@ -18,4 +18,11 @@ interface MatchEndpoint {
         @Query("per_page") per_page: Int = BuildConfig.PAGINATION_SIZE,
         @Query("page") page: Int
     ): List<Match>
+
+    @GET("matches/past")
+    suspend fun getPastMatches(
+        @Query("filter[end_at]") end_at: String? = null,
+        @Query("per_page") per_page: Int = BuildConfig.PAGINATION_SIZE,
+        @Query("page") page: Int
+    ): List<Match>
 }

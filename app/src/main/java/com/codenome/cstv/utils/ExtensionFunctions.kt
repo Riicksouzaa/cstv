@@ -59,5 +59,5 @@ fun Calendar.getMonthsBetween(start: Calendar): Int {
 
 fun Calendar.getStringDate(): String {
     val today = this.getTripleDate()
-    return "${today.first}-${today.second}-${today.third}"
+    return "${today.third}-${today.second}-${today.first}"
 }
